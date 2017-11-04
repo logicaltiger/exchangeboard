@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>JWT Spring Security Demo</title>
+
+   <!-- Latest compiled and minified CSS -->
+   <link rel="stylesheet" href="css/bootstrap.min.css">
+
+   <!-- Optional theme -->
+   <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+
+   <style>
+     .jborder { border-style: solid; border-width: 1px; margin: 2px; padding-top: 4px; }
+   </style>
+</head>
+<body>
+<div class="container">
+   <h1>JWT Spring Security Demo</h1>
+
+   <div class="alert alert-danger" id="notLoggedIn">Not logged in!</div>
+
+   <div class="row">
+      <div class="col-md-6">
+         <div class="panel panel-default" id="login">
+            <div class="panel-heading">
+               <h3 class="panel-title">Login</h3>
+            </div>
+            <div class="panel-body">
+               <form id="loginForm">
+                  <div class="form-group">
+                     <input type="text" class="form-control" id="exampleInputName1" placeholder="username"
+                            required name="username">
+                  </div>
+                  <div class="form-group">
+                     <input type="password" class="form-control" id="exampleInputPassword1"
+                            placeholder="password" required name="password">
+                  </div>
+                  <div class="well">
+                     Try one of the following logins
+                     <ul>
+                        <li>admin & admin</li>
+                        <li>user & password</li>
+                        <li>disabled & password</li>
+                     </ul>
+                  </div>
+                  <button type="submit" class="btn btn-default">login</button>
+               </form>
+            </div>
+         </div>
+
+         <div id="userInfo">
+            <div class="panel panel-default">
+               <div class="panel-heading">
+                  <h3 class="panel-title">Authenticated user</h3>
+               </div>
+               <div class="panel-body">
+                  <div id="userInfoBody"></div>
+                  <button type="button" class="btn btn-default" id="logoutButton">logout</button>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-md-6">
+         <div class="btn-group" role="group" aria-label="..." style="margin-bottom: 16px;">
+            <button type="button" class="btn btn-default" id="exampleServiceBtn">call example service</button>
+            <button type="button" class="btn btn-default" id="adminServiceBtn">call admin protected service</button>
+         </div>
+         <div class="panel panel-default">
+            <div class="panel-heading">
+               <h3 class="panel-title">Response:</h3>
+            </div>
+            <div class="panel-body">
+               <pre id="response"></pre>
+            </div>
+         </div>
+      </div>
+
+      <div class="col-md-6 jborder">
+         <div class="btn-group" role="group" aria-label="..." style="margin-bottom: 16px;">
+            <button type="button" class="btn btn-default" id="ChoicesGetBtn">call Choices GET service</button>
+            <button type="button" class="btn btn-default" id="ChoiceGet1Btn">call Choice GET 1 service</button>
+            <button type="button" class="btn btn-default" id="ChoiceGet2Btn">call Choice GET 2 service</button>
+            
+            <button type="button" class="btn btn-default" id="ChoicePostBtn">call Choice POST service</button>
+            <button type="button" class="btn btn-default" id="ChoicePut61Btn">call Choice PUT 61 service</button>
+            <button type="button" class="btn btn-default" id="ChoicePut62Btn">call Choice PUT 62 service</button>
+            
+         </div>
+      </div>
+      
+      <div class="col-md-6 jborder">
+         <div class="btn-group" role="group" aria-label="..." style="margin-bottom: 16px;">
+            <button type="button" class="btn btn-default" id="OrgsGetBtn">call Orgs GET service</button>
+            <button type="button" class="btn btn-default" id="OrgsProvidersGetBtn">call Orgs Providers GET service</button>
+            <button type="button" class="btn btn-default" id="OrgGet1Btn">call Org GET 1 (user 2) service</button>
+            <button type="button" class="btn btn-default" id="OrgGet2Btn">call Org GET 2 service</button>
+            <button type="button" class="btn btn-default" id="OrgGet23Btn">call Org GET 23 service</button>
+            <button type="button" class="btn btn-default" id="OrgGet24Btn">call Org GET 24 service</button>
+            
+            <button type="button" class="btn btn-default" id="OrgPostBtn">call Org POST service</button>
+            <button type="button" class="btn btn-default" id="OrgPut1Btn">call Org PUT 1 (user 2) service</button>
+            <button type="button" class="btn btn-default" id="OrgPut2Btn">call Org PUT 2 service</button>
+            <button type="button" class="btn btn-default" id="OrgPut23Btn">call Org PUT 23 service</button>
+            <button type="button" class="btn btn-default" id="OrgPut24Btn">call Org PUT 24 service</button>
+         </div>
+      </div>
+      
+      <div class="col-md-6 jborder">
+         <div class="btn-group" role="group" aria-label="..." style="margin-bottom: 16px;">
+            <button type="button" class="btn btn-default" id="FiltersGetBtn">call Filters GET service</button>
+            <button type="button" class="btn btn-default" id="FavorsGetBtn">call Favors GET service</button>
+            <button type="button" class="btn btn-default" id="TraitsGetBtn">call Traits GET service</button>
+            <button type="button" class="btn btn-default" id="FilterGet21Btn">call Filter GET 21 service</button>
+            <button type="button" class="btn btn-default" id="FilterGet22Btn">call Filter GET 22 service</button>
+            <button type="button" class="btn btn-default" id="FilterGet99Btn">call Filter GET 99 Fake service</button>
+            
+            <button type="button" class="btn btn-default" id="FilterPostBtn">call Filter POST service</button>
+            <button type="button" class="btn btn-default" id="FilterPut21Btn">call Filter PUT 21 service</button>
+            <button type="button" class="btn btn-default" id="FilterPut22Btn">call Filter PUT 22 service</button>
+         </div>
+      </div>
+      
+      <div class="col-md-6 jborder">
+         <div class="btn-group" role="group" aria-label="..." style="margin-bottom: 16px;">
+            <button type="button" class="btn btn-default" id="OffersGetBtn">call Offers GET service</button>
+            <button type="button" class="btn btn-default" id="OffersGetOrg1Btn">call Offers GET Org 1 service</button>
+            <button type="button" class="btn btn-default" id="OfferGet99Btn">call Offer GET 99 Fake service</button>
+            <button type="button" class="btn btn-default" id="OfferGet55Btn">call Offer GET 55 service</button>
+            <button type="button" class="btn btn-default" id="OfferGetOrg1TemplateBtn">call Offer GET Org 1 Template service</button>
+            <button type="button" class="btn btn-default" id="OfferPut52Btn">call Offer PUT 52 service</button>
+            <button type="button" class="btn btn-default" id="OfferPostBtn">call Offer POST service</button>
+         </div>
+      </div>
+      
+      <div class="col-md-6 jborder">
+         <div class="btn-group" role="group" aria-label="..." style="margin-bottom: 16px;">
+            <button type="button" class="btn btn-default" id="OfferSearchBtn">call Offer Search GET service</button>
+         </div>
+      </div>
+      
+      <div class="col-md-6 jborder">
+         <div class="btn-group" role="group" aria-label="..." style="margin-bottom: 16px;">
+            <button type="button" class="btn btn-default" id="UsersGetBtn">call Users GET service</button>
+            <button type="button" class="btn btn-default" id="UsersGet1Btn">call Users GET 1 service</button>
+            <button type="button" class="btn btn-default" id="UsersGet2Btn">call Users GET 2 service</button>
+            <button type="button" class="btn btn-default" id="UsersGet3Btn">call Users GET 3 service</button>
+            <button type="button" class="btn btn-default" id="UserPostBtn">call Users POST service</button>
+            <button type="button" class="btn btn-default" id="UserPut2Btn">call Users PUT 2 service</button>
+            <button type="button" class="btn btn-default" id="UserPut3Btn">call Users PUT 3 service</button>
+            <button type="button" class="btn btn-default" id="UserAssist24Btn">call Users Assist 24 service</button>
+         </div>
+      </div>
+      
+   </div>
+
+   <div class="row">
+      <div id="loggedIn" class="col-md-6">
+         <div class="panel panel-default">
+            <div class="panel-heading">
+               <h3 class="panel-title">Token information</h3>
+            </div>
+            <div class="panel-body" id="loggedInBody"></div>
+         </div>
+      </div>
+   </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="loginErrorModal">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Login unsuccessful</h4>
+         </div>
+         <div class="modal-body"></div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+         </div>
+      </div><!-- /.modal-content -->
+   </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<script src="js/jquery-2.2.2.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+<script src="js/libs/jwt-decode.min.js"></script>
+<script src="js/client.js"></script>
+</body>
+</html>

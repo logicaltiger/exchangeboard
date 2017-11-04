@@ -1,0 +1,42 @@
+# config context path to "/" by setting an empty string
+server:
+  contextPath:
+
+spring:
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
+
+exchangeboard:
+  datasource:
+    url: jdbc:mysql://localhost/eboard?zeroDateTimeBehavior=convertToNull
+    username: root
+    password: tmiahm.rah
+    driver-class-name: com.mysql.jdbc.Driver
+
+authentication:
+  datasource:
+    url: jdbc:mysql://localhost/authentication?zeroDateTimeBehavior=convertToNull
+    username: root
+    password: tmiahm.rah
+    driver-class-name: com.mysql.jdbc.Driver
+    
+hibernate:
+  dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  show_sql: true
+  id:
+    new_generator_mappings: false
+
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+
+#logging:
+#  level:
+#    org.springframework:
+#      security: DEBUG
